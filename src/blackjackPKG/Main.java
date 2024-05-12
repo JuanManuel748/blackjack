@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.sql.*;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
@@ -15,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("BLACK JACK PARA BLANQUEAR DINERO");
         JFrame frame = new JFrame();
-        frame.setSize(1000, 800);
+        frame.setSize(1500, 800);
         frame.setTitle("BLACK JACK");
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
@@ -33,6 +34,7 @@ class myPa extends JPanel {
     // labels para mostrar las cartas
     private myLb cuprier;
     private myLb jugador;
+    private myLb ranking;
 
     // hashmap con las cartas
     private HashMap<Integer, card> cartas = new HashMap<>();
@@ -50,20 +52,29 @@ class myPa extends JPanel {
     private JOptionPane sc;
     private boolean cont = true;
 
+    
+
     public myPa() {
         sc = new JOptionPane();
-
         setLayout(null);
+
         setBackground(new Color(0, 128, 0));
 
+        ranking = new myLb("RANKING");
+        //En el medio de la pantalla a la derecha
+        ranking.setBounds( 1200, 225, 160, 300);
+        ranking.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        ranking.setForeground(Color.WHITE);
+        add(ranking);
+
         cuprier = new myLb("CUPRIER");
-        cuprier.setBounds(50, 50, 850, 300);
+        cuprier.setBounds(50, 50, 1000, 300);
         cuprier.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         cuprier.setForeground(Color.WHITE);
         add(cuprier);
 
         jugador = new myLb("JUGADOR");
-        jugador.setBounds(50, 400, 850, 300);
+        jugador.setBounds(50, 400, 1000, 300);
         // hacer que tenga un borde negro
         jugador.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         jugador.setForeground(Color.WHITE);
@@ -74,11 +85,14 @@ class myPa extends JPanel {
         cuprier.setHorizontalAlignment(JLabel.LEFT);
         jugador.setVerticalAlignment(JLabel.TOP);
         jugador.setHorizontalAlignment(JLabel.LEFT);
+        ranking.setHorizontalAlignment(JLabel.CENTER);
+        ranking.setVerticalAlignment(JLabel.TOP);
 
         pedirAc pedirAction = new pedirAc("PEDIR");
         plantarAc plantarAction = new plantarAc("PLANTAR");
         doblarAc doblarAction = new doblarAc("DOBLAR");
         repetirAc repetirAction = new repetirAc("VOLVER A JUGAR");
+        guardarAc guardarAction = new guardarAc("GUARDAR ESTADO");
 
 
 
@@ -86,23 +100,27 @@ class myPa extends JPanel {
         JButton plantarBTN = new JButton(plantarAction);
         JButton doblarBTN = new JButton(doblarAction);
         JButton repetirBTN = new JButton(repetirAction);
+        JButton guardarBTN = new JButton(guardarAction);
 
 
         pedirBTN.setBounds(100, 600, 100, 50);
         plantarBTN.setBounds(250, 600, 100, 50);
         doblarBTN.setBounds(400, 600, 100, 50);
         repetirBTN.setBounds(550, 600, 100, 50);
+        guardarBTN.setBounds(700, 600, 100, 50);
 
         add(pedirBTN);
         add(plantarBTN);
         add(doblarBTN);
         add(repetirBTN);
+        add(guardarBTN);
 
         jugar();
     }
 
     public void jugar() {
         cont = true;
+        String nombreJugador;
         scoreJugador = 0;
         scoreCuprier = 0;
 
@@ -114,6 +132,7 @@ class myPa extends JPanel {
         cuprier.clear();
 
         barajar();
+        nombreJugador = sc.showInputDialog("Introduce tu nombre");
         apuesta = Integer.parseInt(sc.showInputDialog("¿CUANTO QUIERES APUESTAR?" + "    DINERO: " + budget));
         if (apuesta > budget) {
             sc.showMessageDialog(null, "DINERO INSUFICIENTE");
@@ -160,16 +179,13 @@ class myPa extends JPanel {
                 System.out.println("Carta repetida, reasignando");
             }
         }
-
-
-
-
-
         // mostrar las cartas
         cuprier.setText("CUPRIER: " + scoreCuprier);
         jugador.setText("JUGADOR: " + scoreJugador + "    Apuesta: " + apuesta + "    DINERO: " + budget);
+        ranking.setText("RANKING");
         jugador.repaint();
         cuprier.repaint();
+        ranking.repaint();
 
 
     }
@@ -301,6 +317,27 @@ class myPa extends JPanel {
                 }
 
 
+            }
+        }
+
+        class guardarAc extends AbstractAction {
+            //Guardar el nombre y el dinero en la base de datos en la tabla jugadores
+            public guardarAc(String text) {
+                putValue(Action.NAME, text);
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/blackJack", "root", "");
+                    Statement stmt = con.createStatement();
+                    String nombre = sc.showInputDialog("Introduce tu nombre");
+                    String query = "INSERT INTO jugadores (nombre, dinero) VALUES ('" + nombre + "', " + budget + ")";
+                    stmt.executeUpdate(query);
+                    sc.showMessageDialog(null, "Datos guardados correctamente");
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
 
