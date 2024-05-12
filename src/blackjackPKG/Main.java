@@ -21,6 +21,8 @@ public class Main {
 
         myPa panel = new myPa();
         frame.add(panel);
+
+
         frame.setVisible(true);
 
     }
@@ -33,7 +35,7 @@ class myPa extends JPanel {
     private myLb jugador;
 
     // hashmap con las cartas
-    private HashMap<Integer, card> cartas = new HashMap<>();
+    private HashMap<Integer, Image> cartas = new HashMap<>();
 
     // score
     private int scoreCuprier = 0;
@@ -104,13 +106,22 @@ class myPa extends JPanel {
             jugador.setText("JUGADOR: " +  scoreJugador + "    Apuesta: " + apuesta + "    DINERO: " + budget);
 
 
-            jugador.addCardImage(cartas.get(0).getImage());
-            cuprier.addCardImage(cartas.get(1).getImage());
+           // añadir las cartas
+
+            jugador.addCarta(cartas.get(0));
+            jugador.addCarta(cartas.get(1));
+
+            cuprier.addCarta(cartas.get(2));
+
             jugador.repaint();
             cuprier.repaint();
 
+            cont = false;
 
+            // fin del while
         }
+
+
 
 
     }
@@ -119,87 +130,32 @@ class myPa extends JPanel {
 
 
     class myLb extends JLabel {
+        private ArrayList<ImageIcon> cartas = new ArrayList<>();
 
-        private final ArrayList<ImageIcon> cardImages = new ArrayList<>();
         public myLb() {
         }
 
-        public void addCardImage(ImageIcon image) {
-            this.cardImages.add(image);
+        public void addCarta(Image img) {
+            ImageIcon icon = new ImageIcon(img);
+            cartas.add(icon);
         }
 
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-
-            for (int i = 0; i < cardImages.size(); i++) {
-                Image cardImage = cardImages.get(i).getImage();
-                if (cardImage != null) {
-                    g.drawImage(cardImage, i * 100, 50, this);  // Dibuja cada carta en una posición diferente
-                }
+            int x = 0;
+            for (ImageIcon icon : cartas) {
+                g.drawImage(icon.getImage(), x, 0, this);
+                x += icon.getIconWidth();
             }
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public void darCarta(myLb label, int carta) {
+        Image img = cartas.get(carta);
+        label.addCarta(img);
+        label.repaint();
+    }
 
 
     public void barajar() {
@@ -248,17 +204,16 @@ class myPa extends JPanel {
                     path = "cartas/K" + palo + extension;
                     puntuacion = 10;
                 }
+
+
                 try {
-                    cartas.put(x, new card(path, puntuacion));
-                    y++;
-                    if (cartas.get(x).getImage() == null) {
-                        System.out.println("Carta no encontrada: " + path);
-                    } else {
-                        System.out.println(cartas.get(x).getImage());
-                    }
-                } catch (Exception e) {
-                    System.out.println("Carta no encontrada: " + path);
+                    Image img = ImageIO.read(getClass().getResource(path));
+                    cartas.put(x, img);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+
+
 
                 x++;
             }
