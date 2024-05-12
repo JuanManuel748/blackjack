@@ -2,6 +2,8 @@ package blackjackPKG;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.plaf.nimbus.State;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -24,7 +26,6 @@ public class Main {
         myPa panel = new myPa();
         frame.add(panel);
         frame.setVisible(true);
-
 
     }
 }
@@ -132,7 +133,6 @@ class myPa extends JPanel {
         cuprier.clear();
 
         barajar();
-        nombreJugador = sc.showInputDialog("Introduce tu nombre");
         apuesta = Integer.parseInt(sc.showInputDialog("¿CUANTO QUIERES APUESTAR?" + "    DINERO: " + budget));
         if (apuesta > budget) {
             sc.showMessageDialog(null, "DINERO INSUFICIENTE");
@@ -331,10 +331,35 @@ class myPa extends JPanel {
                 try {
                     Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/blackJack", "root", "");
                     Statement stmt = con.createStatement();
+                    Statement statement = con.createStatement();
+                    // Ejecuta una consulta para obtener los 5 jugadores con más dinero
+                    ResultSet resultSet = statement.executeQuery(
+                        "SELECT * FROM jugadores ORDER BY dinero DESC LIMIT 5"
+                    );
+
+                    // Construye una cadena con los nombres de los 5 jugadores con más dinero
+                    StringBuilder rankingText = new StringBuilder("RANKING\n");
+                    int rank = 1;
+                    while (resultSet.next()) {
+                        String nombre = resultSet.getString("nombre");
+                        int dinero = resultSet.getInt("dinero");
+                        rankingText.append(rank + ". " + nombre + ": " + dinero + "\n");
+                        rank++;
+                    }
+
+                    ranking.setText(rankingText.toString());
+
                     String nombre = sc.showInputDialog("Introduce tu nombre");
-                    String query = "INSERT INTO jugadores (nombre, dinero) VALUES ('" + nombre + "', " + budget + ")";
-                    stmt.executeUpdate(query);
-                    sc.showMessageDialog(null, "Datos guardados correctamente");
+                    //si el nombre esta vacio te vuelves a pedir el nombre
+                    while (nombre.equals("")) {
+                        nombre = sc.showInputDialog("Introduce tu nombre");
+                    }
+                    ResultSet rs = stmt.executeQuery("SELECT * FROM jugadores WHERE nombre = '" + nombre + "'");
+                    if (rs.next()) {
+                        stmt.executeUpdate("UPDATE jugadores SET dinero = " + budget + " WHERE nombre = '" + nombre + "'");
+                    } else {
+                        stmt.executeUpdate("INSERT INTO jugadores (nombre, dinero) VALUES ('" + nombre + "', " + budget + ")");
+                    }
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
