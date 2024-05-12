@@ -1,31 +1,29 @@
 package blackjackPKG;
 
-import javax.swing.*;
+import java.awt.Image;
 
 public class card {
+    private int puntuacion;
+    private Image img;
 
-    public ImageIcon image;
-    public int puntuacion;
-
-
-    public card(String path, int puntuacion) {
-        this.image = new ImageIcon(path);
+    public card(int puntuacion, Image img) {
         this.puntuacion = puntuacion;
-    }
-
-    public ImageIcon getImage() {
-        return image;
-    }
-
-    public void setImage(ImageIcon image) {
-        this.image = image;
+        this.img = img;
     }
 
     public int getPuntuacion() {
-        return puntuacion;
+        return this.puntuacion;
     }
 
     public void setPuntuacion(int puntuacion) {
         this.puntuacion = puntuacion;
+    }
+
+    public Image getImg() {
+        return img;
+    }
+
+    public void setImg(Image img) {
+        this.img = img;
     }
 }
