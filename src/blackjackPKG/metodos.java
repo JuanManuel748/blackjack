@@ -55,7 +55,6 @@ public class metodos {
 
     public static void barajar() {
         int x = 0;
-        int y = 0;
         for (int i = 0; i < 4; i++) {
             String palo = "";
             String extension = "";
@@ -80,14 +79,14 @@ public class metodos {
             }
 
             for (int j = 0; j < 13; j++) {
-                String path = "";
+                String path;
 
-                int puntuacion = 0;
+                int puntuacion;
                 if (j == 0) {
                     path = "cartas/A" + palo + extension;
                     puntuacion = 11;
-                } else if (j > 0 && j < 10) {
-                    path = "cartas/" + String.valueOf(j + 1) + palo + extension;
+                } else if (j < 10) {
+                    path = "cartas/" + (j + 1) + palo + extension;
                     puntuacion = j + 1;
                 } else if (j == 10) {
                     path = "cartas/J" + palo + extension;
@@ -95,7 +94,7 @@ public class metodos {
                 } else if (j == 11) {
                     path = "cartas/Q" + palo + extension;
                     puntuacion = 10;
-                } else if (j == 12) {
+                } else {
                     path = "cartas/K" + palo + extension;
                     puntuacion = 10;
                 }
@@ -107,12 +106,10 @@ public class metodos {
 
                     if (cartas.get(0).getImg() == null) {
                         System.out.println("Error");
-                    } else {
-                        y++;
                     }
 
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("ERROR in loading images");
                 }
 
 
@@ -129,7 +126,7 @@ public class metodos {
         scoreC = 0;
 
         if (budget <= 0) {
-            JOptionPane.showMessageDialog(null, "No te quedan dineros, te vamos a borrar la cuenta");
+            JOptionPane.showMessageDialog(null, "No te quedan dineros, te vamos a borrar la cuenta\nTe recomendamos dejar de jugar");
             sqlInstruction = "DELETE FROM jugadores WHERE nombre = '" + name + "'";
             try {
                 stmt.executeUpdate(sqlInstruction);

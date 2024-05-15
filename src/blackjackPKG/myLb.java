@@ -8,8 +8,8 @@ import java.util.*;
 import static blackjackPKG.myPa.*;
 
 public class myLb extends JLabel {
-    private ArrayList<ImageIcon> cartasTemp = new ArrayList<>();
-    private String text;
+    private final ArrayList<ImageIcon> cartasTemp = new ArrayList<>();
+    private final String text;
     private int x = 0;
 
     public myLb(String text) {

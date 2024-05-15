@@ -2,12 +2,11 @@ package blackjackPKG;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.SQLException;
 
 import static blackjackPKG.myPa.*;
 
 public class displayLb extends JLabel {
-    private String text;
+    private final String text;
     private int x = 0;
 
     public displayLb(String text) {
