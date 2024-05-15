@@ -21,6 +21,7 @@ public class metodos {
     }
 
     public static void log_in(){
+        budget = 50;
         name = JOptionPane.showInputDialog(null, "Introduce tu nombre");
         try {
             if (name.equalsIgnoreCase("") || name.equalsIgnoreCase("player") || name.equalsIgnoreCase("jugador")) {
@@ -127,8 +128,14 @@ public class metodos {
         scoreP = 0;
         scoreC = 0;
 
-        if (budget <= 0){
-            JOptionPane.showMessageDialog(null, "No tienes dinero");
+        if (budget <= 0) {
+            JOptionPane.showMessageDialog(null, "No te quedan dineros, te vamos a borrar la cuenta");
+            sqlInstruction = "DELETE FROM jugadores WHERE nombre = '" + name + "'";
+            try {
+                stmt.executeUpdate(sqlInstruction);
+            } catch (SQLException SQLe) {
+                System.out.println("ERROR TRYING TO DELETE FROM DATABASE");
+            }
             System.exit(0);
         }
 
@@ -149,13 +156,17 @@ public class metodos {
 
 
         if (bet > budget) {
-            JOptionPane.showMessageDialog(null, "No tienes tanto dinero");
+            JOptionPane.showMessageDialog(null, "No tienes tanto dinero para apostar, prueba otra cantidad");
+            sqlInstruction = "UPDATE Jugadores SET dinero = "+budget+" WHERE nombre = '" + name + "'";
+            try {
+                stmt.executeUpdate(sqlInstruction);
+            } catch (SQLException SQLe) {
+                System.out.println("ERROR TRYING TO UPDATE DATABASE");
+            }
             System.exit(0);
         }
 
-        if (budget <= 0) {
-            JOptionPane.showMessageDialog(null, "No te quedan dineros");
-        }
+
 
         budget = budget - bet;
 
@@ -194,15 +205,25 @@ public class metodos {
     }
 
 
+
     public static void lose(){
         JOptionPane.showMessageDialog(null, "PERDISTE");
+
         cont = false;
     }
 
     public static void win(){
         JOptionPane.showMessageDialog(null, "GANASTE");
         cont = false;
+        budget += bet * 2;
+        budgetLb.setValue(budget);
+    }
+
+    public static void draw() {
+        JOptionPane.showMessageDialog(null, "EMPATE");
         budget += bet;
+        cont = false;
+        budgetLb.setValue(budget);
     }
 
 

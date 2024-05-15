@@ -70,14 +70,16 @@ public class myAc extends AbstractAction {
                         }
                     }
 
-                    if (scoreC > 21){
-                        metodos.win();
-                    }
-                    if (scoreC >= scoreP && scoreC <= 21){
+
+                    if (scoreC == scoreP || (scoreC > 21 && scoreP > 21)) {
+                        metodos.draw();
+                    } else if(scoreP < scoreC && scoreC <= 21){
                         metodos.lose();
-                    } else if (scoreP > scoreC && scoreP <= 21){
+                    } else if (scoreP <= 21) {
                         metodos.win();
                     }
+
+
                 }
                 break;
             case "GUARDAR":
