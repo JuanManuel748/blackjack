@@ -16,7 +16,6 @@ public class myPa extends JPanel {
     protected static HashMap <Integer, card> cartas = new HashMap<>();
 
     protected static int scoreC = 0, scoreP = 0;
-    protected static final int scoreMax = 21;
 
     protected static int bet = 0;
     protected static int budget = 0;
