@@ -42,6 +42,8 @@ public class myAc extends AbstractAction {
                     budget = budget - bet;
                     bet = bet * 2;
 
+                    betLb.setValue(bet);
+                    budgetLb.setValue(budget);
                     int random;
                     while (true) {
                         try {
