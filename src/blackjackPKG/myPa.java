@@ -69,7 +69,7 @@ public class myPa extends JPanel {
         myAc plantarAction = new myAc("PLANTAR");
         myAc doblarAction = new myAc("DOBLAR");
         myAc repetirAction = new myAc("SEGUIR");
-        myAc guardarAction = new myAc("GUARDAR");
+        myAc guardarAction = new myAc("SALIR");
 
         JButton pedirBTN = new JButton(pedirAction);
         JButton plantarBTN = new JButton(plantarAction);

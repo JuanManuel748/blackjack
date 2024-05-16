@@ -145,23 +145,21 @@ public class metodos {
         while(true){
             try {
                 bet = Integer.parseInt(JOptionPane.showInputDialog(null, "Introduce tu apuesta: "));
+                if (bet > budget) {
+                    JOptionPane.showMessageDialog(null, "No tienes tanto dinero para apostar, prueba otra cantidad");
+
+                }
                 break;
             } catch (NumberFormatException nfe){
                 JOptionPane.showMessageDialog(null, "Introduce un valor numerico");
+            } catch (Exception ex){
+                JOptionPane.showMessageDialog(null, "ERROR DESCONOCIDO");
+                System.exit(0);
             }
         }
 
 
-        if (bet > budget) {
-            JOptionPane.showMessageDialog(null, "No tienes tanto dinero para apostar, prueba otra cantidad");
-            sqlInstruction = "UPDATE Jugadores SET dinero = "+budget+" WHERE nombre = '" + name + "'";
-            try {
-                stmt.executeUpdate(sqlInstruction);
-            } catch (SQLException SQLe) {
-                System.out.println("ERROR TRYING TO UPDATE DATABASE");
-            }
-            System.exit(0);
-        }
+
 
 
 
@@ -214,6 +212,7 @@ public class metodos {
         cont = false;
         budget += bet * 2;
         budgetLb.setValue(budget);
+        betLb.setValue(0);
     }
 
     public static void draw() {
@@ -221,6 +220,8 @@ public class metodos {
         budget += bet;
         cont = false;
         budgetLb.setValue(budget);
+        betLb.setValue(0);
+
     }
 
 

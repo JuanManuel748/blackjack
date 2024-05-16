@@ -20,12 +20,19 @@ public class myLb extends JLabel {
 
     public void addCard(int x){
         ImageIcon card = new ImageIcon(cartas.get(x).getImg());
+        int punt = cartas.get(x).getPuntuacion();
         cartasTemp.add(card);
         if (text.equalsIgnoreCase("CUPRIER")) {
-            scoreC = scoreC + cartas.get(x).getPuntuacion();
+            if (punt == 11 && scoreC + punt > 21) {
+                punt = 1;
+            }
+            scoreC = scoreC + punt;
             this.x = scoreC;
         } else if (text.equalsIgnoreCase("PLAYER")) {
-            scoreP = scoreP + cartas.get(x).getPuntuacion();
+            if (punt == 11 && scoreP + punt > 21) {
+                punt = 1;
+            }
+            scoreP = scoreP + punt;
             this.x = scoreP;
         }
         cartas.remove(x);
