@@ -8,6 +8,7 @@ import static blackjackPKG.myPa.*;
 
 public class rankLb extends JLabel {
     private final String text;
+
     public rankLb(String text) {
         this.text = text;
         this.setVerticalAlignment(JLabel.TOP);

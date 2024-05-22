@@ -3,7 +3,6 @@ package blackjackPKG;
 import javax.swing.*;
 import java.awt.*;
 
-import static blackjackPKG.myPa.*;
 
 public class displayLb extends JLabel {
     private final String text;
@@ -14,9 +13,9 @@ public class displayLb extends JLabel {
         this.setVerticalAlignment(JLabel.TOP);
         this.setHorizontalAlignment(JLabel.LEFT);
         if(text.equalsIgnoreCase("budget")){
-            this.x = budget;
+            this.x = myPa.budget;
         } else if (text.equalsIgnoreCase("bet")) {
-            this.x=bet;
+            this.x= myPa.bet;
         }
 
     }

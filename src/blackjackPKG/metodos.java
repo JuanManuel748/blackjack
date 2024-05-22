@@ -29,17 +29,39 @@ public class metodos {
             } else {
                 sqlInstruction = "SELECT * FROM jugadores WHERE nombre = '" + name + "'";
                 rs = stmt.executeQuery(sqlInstruction);
+                String password;
                 int exists = 0;
                 while (rs.next()) {
                     exists++;
-                    budget = rs.getInt("dinero");
+                    for (int i = 3; i>0; i--){
+                        password = JOptionPane.showInputDialog(null, "Insert your password: ");
+                        if (password.equals(rs.getString("password"))){
+                            JOptionPane.showMessageDialog(null, "Correct Password");
+                            budget = rs.getInt("dinero");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Invalid password, remaining tries: " + (i-1));
+                            if (i == 1){
+                                JOptionPane.showMessageDialog(null, "Too many tries, exiting...");
+                                System.exit(0);
+                            }
+                        }
+                    }
+
                     if (budget <= 0){
                         JOptionPane.showMessageDialog(null, "No tienes dinero, intentalo de nuevo con otro nombre");
                         System.exit(0);
                     }
                 }
                 if (exists == 0) {
-                    sqlInstruction = "INSERT INTO jugadores (nombre, dinero) VALUES ('" + name + "', 50)";
+                    while (true){
+                        password = JOptionPane.showInputDialog(null, "Insert your password, it must be at least 8 characters long");
+                        if (password.length() > 8){
+                            break;
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Password too short, try again");
+                        }
+                    }
+                    sqlInstruction = "INSERT INTO jugadores (nombre,password, dinero) VALUES ('" + name + "', '"+password+"', 50)";
                     stmt.executeUpdate(sqlInstruction);
                 }
 
@@ -126,7 +148,7 @@ public class metodos {
         scoreC = 0;
 
         if (budget <= 0) {
-            JOptionPane.showMessageDialog(null, "No te quedan dineros, te vamos a borrar la cuenta\nTe recomendamos dejar de jugar");
+            JOptionPane.showMessageDialog(null, "No te queda dinero, te vamos a borrar la cuenta\nTe recomendamos dejar de jugar");
             sqlInstruction = "DELETE FROM jugadores WHERE nombre = '" + name + "'";
             try {
                 stmt.executeUpdate(sqlInstruction);
@@ -146,22 +168,17 @@ public class metodos {
             try {
                 bet = Integer.parseInt(JOptionPane.showInputDialog(null, "Introduce tu apuesta: "));
                 if (bet > budget) {
-                    JOptionPane.showMessageDialog(null, "No tienes tanto dinero para apostar, prueba otra cantidad");
+                    JOptionPane.showMessageDialog(null, "No tienes tantos puntos para apostar, prueba otra cantidad");
 
                 }
                 break;
             } catch (NumberFormatException nfe){
                 JOptionPane.showMessageDialog(null, "Introduce un valor numerico");
             } catch (Exception ex){
-                JOptionPane.showMessageDialog(null, "ERROR DESCONOCIDO");
+                JOptionPane.showMessageDialog(null, "ERROR DESCONOCIDO in bet");
                 System.exit(0);
             }
         }
-
-
-
-
-
 
         budget = budget - bet;
 
@@ -203,7 +220,7 @@ public class metodos {
 
     public static void lose(){
         JOptionPane.showMessageDialog(null, "PERDISTE");
-
+        betLb.setValue(0);
         cont = false;
     }
 

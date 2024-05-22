@@ -39,6 +39,10 @@ public class myAc extends AbstractAction {
                 break;
             case "DOBLAR":
                 if (cont){
+                    if (budget < bet) {
+                        JOptionPane.showMessageDialog(null, "No tienes suficiente dinero");
+                        break;
+                    }
                     budget = budget - bet;
                     bet = bet * 2;
 
@@ -84,8 +88,11 @@ public class myAc extends AbstractAction {
 
                 }
                 break;
-            case "GUARDAR":
+            case "SALIR":
                 if (!cont) {
+                    if (name.equalsIgnoreCase("PLAYER")){
+                        JOptionPane.showMessageDialog(null, "No se puede guardar porque has entrado como invitado");
+                    }
                     try {
                         sqlInstruction = "UPDATE jugadores SET dinero = " + budget + " WHERE nombre = '" + name + "'";
                         stmt.executeUpdate(sqlInstruction);

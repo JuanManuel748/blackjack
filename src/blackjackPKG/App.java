@@ -4,7 +4,7 @@ import javax.swing.*;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
-public class Main {
+public class App {
     public static void main(String[] args) {
         System.out.println("BLACK JACK PARA BLANQUEAR DINERO");
         JFrame frame = new JFrame();
