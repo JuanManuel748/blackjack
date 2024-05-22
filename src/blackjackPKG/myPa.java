@@ -8,24 +8,21 @@ import java.util.*;
 public class myPa extends JPanel {
     protected static myLb cuprier, player;
     protected static rankLb ranking;
-
-    protected static String name = "PLAYER";
-
     protected static displayLb betLb, budgetLb;
 
-    protected static HashMap <Integer, card> cartas = new HashMap<>();
-
     protected static int scoreC = 0, scoreP = 0;
+    protected static int bet = 0,  budget = 0;
 
-    protected static int bet = 0;
-    protected static int budget = 0;
-
-    protected static boolean cont = false;
+    protected static HashMap <Integer, card> cartas = new HashMap<>();
 
     protected static Connection con;
     protected static Statement stmt;
     protected static ResultSet rs;
     protected static String sqlInstruction;
+
+    protected static String name = "PLAYER";
+    protected static boolean cont = false;
+
 
 
     public myPa () {
