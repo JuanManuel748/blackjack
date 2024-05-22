@@ -34,7 +34,7 @@ public class metodos {
                     exists++;
                     budget = rs.getInt("dinero");
                     if (budget <= 0){
-                        JOptionPane.showMessageDialog(null, "No tienes dinero, intentalo de nuevo con otro nombre");
+                        JOptionPane.showMessageDialog(null, "No tienes puntos, intentalo de nuevo con otro nombre");
                         System.exit(0);
                     }
                 }
@@ -126,7 +126,7 @@ public class metodos {
         scoreC = 0;
 
         if (budget <= 0) {
-            JOptionPane.showMessageDialog(null, "No te quedan dineros, te vamos a borrar la cuenta\nTe recomendamos dejar de jugar");
+            JOptionPane.showMessageDialog(null, "No te quedan puntos, te vamos a borrar la cuenta\nTe recomendamos dejar de jugar");
             sqlInstruction = "DELETE FROM jugadores WHERE nombre = '" + name + "'";
             try {
                 stmt.executeUpdate(sqlInstruction);
@@ -146,14 +146,14 @@ public class metodos {
             try {
                 bet = Integer.parseInt(JOptionPane.showInputDialog(null, "Introduce tu apuesta: "));
                 if (bet > budget) {
-                    JOptionPane.showMessageDialog(null, "No tienes tanto dinero para apostar, prueba otra cantidad");
+                    JOptionPane.showMessageDialog(null, "No tienes tantos puntos para apostar, prueba otra cantidad");
 
                 }
                 break;
             } catch (NumberFormatException nfe){
                 JOptionPane.showMessageDialog(null, "Introduce un valor numerico");
             } catch (Exception ex){
-                JOptionPane.showMessageDialog(null, "ERROR DESCONOCIDO");
+                JOptionPane.showMessageDialog(null, "ERROR DESCONOCIDO in bet");
                 System.exit(0);
             }
         }
@@ -203,7 +203,7 @@ public class metodos {
 
     public static void lose(){
         JOptionPane.showMessageDialog(null, "PERDISTE");
-
+        betLb.setValue(0);
         cont = false;
     }
 

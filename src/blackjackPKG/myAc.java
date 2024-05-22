@@ -39,6 +39,10 @@ public class myAc extends AbstractAction {
                 break;
             case "DOBLAR":
                 if (cont){
+                    if (budget < bet) {
+                        JOptionPane.showMessageDialog(null, "No tienes suficientes puntos");
+                        break;
+                    }
                     budget = budget - bet;
                     bet = bet * 2;
 
@@ -84,7 +88,7 @@ public class myAc extends AbstractAction {
 
                 }
                 break;
-            case "GUARDAR":
+            case "SALIR":
                 if (!cont) {
                     try {
                         sqlInstruction = "UPDATE jugadores SET dinero = " + budget + " WHERE nombre = '" + name + "'";
