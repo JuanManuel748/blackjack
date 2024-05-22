@@ -29,7 +29,7 @@ public class myPa extends JPanel {
         setLayout(null);
         setBackground(new Color(0, 128, 0));
 
-        cuprier = new myLb("CUPRIER");
+        cuprier = new myLb("CRUPIER");
         cuprier.setBounds(50, 50, 1000, 300);
         cuprier.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         cuprier.setForeground(Color.WHITE);
@@ -38,7 +38,6 @@ public class myPa extends JPanel {
 
         player = new myLb(name);
         player.setBounds(50, 400, 1000, 300);
-        // hacer que tenga un borde negro
         player.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         player.setForeground(Color.WHITE);
         add(player);
@@ -86,15 +85,9 @@ public class myPa extends JPanel {
         add(repetirBTN);
         add(guardarBTN);
 
-
-        // HACER METODO QUE LE PASE POR PARAMETROS EL CONNECTION Y EL STATEMENT
-
         metodos.conectarBD();
 
-        // HACER METODO QUE SE LE PASO POR PARAMETROS EL NAME,
-
         metodos.log_in();
-
 
         metodos.jugar();
     }

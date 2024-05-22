@@ -22,7 +22,7 @@ public class myLb extends JLabel {
         ImageIcon card = new ImageIcon(cartas.get(x).getImg());
         int punt = cartas.get(x).getPuntuacion();
         cartasTemp.add(card);
-        if (text.equalsIgnoreCase("CUPRIER")) {
+        if (text.equalsIgnoreCase("CUPIER")) {
             if (punt == 11 && scoreC + punt > 21) {
                 punt = 1;
             }

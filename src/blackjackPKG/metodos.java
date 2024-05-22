@@ -180,11 +180,6 @@ public class metodos {
             }
         }
 
-
-
-
-
-
         budget = budget - bet;
 
         betLb.setValue(bet);
